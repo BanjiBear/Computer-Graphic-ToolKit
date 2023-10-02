@@ -1,5 +1,7 @@
-.DS_Store
-package/.DS_Store
+./.DS_Store
+./package/.DS_Store
+./package/util/.DS_Store
+./package/widgets/.DS_Store
 
 package/__pycache__/
 package/util/__pycache__/
