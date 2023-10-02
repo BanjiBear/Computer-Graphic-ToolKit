@@ -1,1 +1,6 @@
 .DS_Store
+package/.DS_Store
+
+package/__pycache__/
+package/util/__pycache__/
+package/widgets/__pycache__/
