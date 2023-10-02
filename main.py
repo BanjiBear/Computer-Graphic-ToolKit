@@ -30,8 +30,7 @@ class Canvas(QMainWindow):
 	def init_toolkit(self):
 		self.toolkit = ToolKit()
 		self.toolkit.createToolKit(self.app)
-
-		self.toolkit.create_button()
+		self.toolkit.create_primitive_tools()
 
 		self.toolkit.show()
 

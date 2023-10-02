@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QWidget
 
 from package.util import constant
 from package.util.util import EnvSetting
-from package.widgets.button import Button
+from package.widgets.button import Buttons
 
 
 class Tools(Enum):
@@ -43,11 +43,11 @@ class ToolKit(QWidget):
 	"""
 
 
-	def create_button(self):
-		button = Button(self.toolkit_width, self.toolkit_height)
+	def create_primitive_tools(self):
+		self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
 		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
 		label = [i.value for i in Tools]
-		self.setLayout(button.create_button(layout, label))
+		self.setLayout(self.buttons.create_button(layout, label))
 
 
 
