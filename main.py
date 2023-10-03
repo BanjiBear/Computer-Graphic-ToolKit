@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from package.widgets.canvas import Canvas
 from package.widgets.toolkit import ToolKit
-from package.util import constant
 from package.util.util import EnvSetting
 
 
