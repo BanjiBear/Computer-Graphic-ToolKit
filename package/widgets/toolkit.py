@@ -21,9 +21,9 @@ class PremitiveTools(Enum):
 
 class ToolKit(QWidget):
 
-	def createToolKit(self, app):
-		# parent = None
-		# super(ToolKit, self).__init__(parent)
+	def __init__(self, canvas):
+		parent = None
+		super(ToolKit, self).__init__(parent)
 
 		"""
 		Description: Canvas is a sub-window created by the main window. 
@@ -35,12 +35,14 @@ class ToolKit(QWidget):
 			https://stackoverflow.com/questions/30470433/how-to-put-a-child-window-inside-a-main-windowpyqt
 		"""
 
+		self.canvas = canvas
+
 		self.setWindowTitle(EnvSetting.ENV[constant.TOOLKIT_TITLE])
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowStaysOnTopHint)
 
 		self.toolkit_width, self.toolkit_height = int(EnvSetting.ENV[constant.TOOLKIT__WIDTH]), int(EnvSetting.ENV[constant.TOOLKIT__HEIGHT])
 		if self.toolkit_width == 0 or self.toolkit_height == 0:
-			screen = app.primaryScreen()
+			screen = self.canvas.app.primaryScreen()
 			self.toolkit_width, self.toolkit_height = screen.size().width() * 0.15, screen.size().height()
 		self.resize(self.toolkit_width, self.toolkit_height)
 
@@ -55,7 +57,7 @@ class ToolKit(QWidget):
 		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
 		self.setLayout(self.buttons.button_layout(layout))
 
-
+		self.show()
 
 
 
