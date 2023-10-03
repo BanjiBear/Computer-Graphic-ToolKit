@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import QWidget
 from package.util import constant
 from package.util.util import EnvSetting
 from package.widgets.button import Buttons
-from package.service.action_service import ActionsService
+from package.service.action_service import Dot, Line
 
 
 class PremitiveTools(Enum):
@@ -58,6 +58,29 @@ class ToolKit(QWidget):
 		self.setLayout(self.buttons.button_layout(layout))
 
 		self.show()
+
+
+
+	def set_primitve_tools_action(self):
+
+		for button in Buttons.buttons:
+			Buttons.buttons[button].setCheckable(True)
+			if button == constant.BUTTON_LABLE_DOT:
+				self.dot = Dot(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.dot.the_button_was_toggled)
+			elif button == constant.BUTTON_LABLE_LINE:
+				self.line = Line(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.line.the_button_was_toggled)
+			elif button == constant.BUTTON_LABLE_SQUARE:
+				...
+			elif button == constant.BUTTON_LABLE_RECTANGLE:
+				...
+			elif button == constant.BUTTON_LAYOUT_CIRCLE:
+				...
+			elif button == constant.BUTTON_LABLE_TRIANGLE:
+				...
+			elif button == constant.BUTTON_LABLE_ARROW:
+				...
 
 
 
