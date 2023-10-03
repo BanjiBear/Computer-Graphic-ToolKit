@@ -8,7 +8,7 @@ from package.util.util import EnvSetting
 from package.widgets.button import Buttons
 
 
-class Tools(Enum):
+class PremitiveTools(Enum):
 	Dot = constant.BUTTON_LABLE_DOT
 	Line = constant.BUTTON_LABLE_LINE
 	Square = constant.BUTTON_LABLE_SQUARE
@@ -46,7 +46,7 @@ class ToolKit(QWidget):
 	def create_primitive_tools(self):
 		self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
 		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
-		label = [i.value for i in Tools]
+		label = [i.value for i in PremitiveTools]
 		self.setLayout(self.buttons.create_button(layout, label))
 
 
