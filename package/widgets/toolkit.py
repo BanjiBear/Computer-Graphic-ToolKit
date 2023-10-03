@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QWidget
 from package.util import constant
 from package.util.util import EnvSetting
 from package.widgets.button import Buttons
+from package.service.action_service import ActionsService
 
 
 class PremitiveTools(Enum):
@@ -21,8 +22,19 @@ class PremitiveTools(Enum):
 class ToolKit(QWidget):
 
 	def createToolKit(self, app):
-		parent = None
-		super(ToolKit, self).__init__(parent)
+		# parent = None
+		# super(ToolKit, self).__init__(parent)
+
+		"""
+		Description: Canvas is a sub-window created by the main window. 
+			It is target to stay within the main window
+			and Always on top of the main window
+		Reference: 
+			https://stackoverflow.com/questions/70045339/what-is-analog-of-setwindowflags-in-pyqt6
+			https://itecnote.com/tecnote/qt-how-to-put-a-child-window-inside-a-main-windowpyqt/
+			https://stackoverflow.com/questions/30470433/how-to-put-a-child-window-inside-a-main-windowpyqt
+		"""
+
 		self.setWindowTitle(EnvSetting.ENV[constant.TOOLKIT_TITLE])
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowStaysOnTopHint)
 
@@ -32,22 +44,16 @@ class ToolKit(QWidget):
 			self.toolkit_width, self.toolkit_height = screen.size().width() * 0.15, screen.size().height()
 		self.resize(self.toolkit_width, self.toolkit_height)
 
-	"""
-		Description: Canvas is a sub-window created by the main window. 
-			It is target to stay within the main window
-			and Always on top of the main window
-		Reference: 
-			https://stackoverflow.com/questions/70045339/what-is-analog-of-setwindowflags-in-pyqt6
-			https://itecnote.com/tecnote/qt-how-to-put-a-child-window-inside-a-main-windowpyqt/
-			https://stackoverflow.com/questions/30470433/how-to-put-a-child-window-inside-a-main-windowpyqt
-	"""
-
 
 	def create_primitive_tools(self):
 		self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
-		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
 		label = [i.value for i in PremitiveTools]
-		self.setLayout(self.buttons.create_button(layout, label))
+		self.buttons.create_button(label)
+
+		self.set_primitve_tools_action()
+
+		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		self.setLayout(self.buttons.button_layout(layout))
 
 
 

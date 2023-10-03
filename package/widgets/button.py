@@ -24,12 +24,7 @@ class Buttons:
 		self.toolkit_width = toolkit_width
 		self.toolkit_height = toolkit_height
 
-	def create_button(self, layout: str, button_label : List):
-		self.layout = Layout[layout].value
-		self.layout.setSpacing(10)
-		self.layout.setContentsMargins(0, 0, 0, 0)
-		# Reference: https://stackoverflow.com/questions/67563632/how-to-reduce-the-space-between-two-widgets-in-pyqt5-qgridlayout#:~:text=To%20remove%20the%20space%20between,to%20the%20imaginary%20fifth%20column.
-		
+	def create_button(self, button_label : List):
 		for lable in button_label:
 			button = QPushButton()
 			button.setText(lable)
@@ -38,6 +33,17 @@ class Buttons:
 			# Reference: https://stackoverflow.com/questions/56975249/button-resizing-automatically
 			self.update_buttons(button)
 			# print(button.text())
+
+	@classmethod
+	def update_buttons(cls, button):
+		cls.buttons.update({button.text():button})
+
+
+	def button_layout(self, layout: str):
+		self.layout = Layout[layout].value
+		self.layout.setSpacing(10)
+		self.layout.setContentsMargins(0, 0, 0, 0)
+		# Reference: https://stackoverflow.com/questions/67563632/how-to-reduce-the-space-between-two-widgets-in-pyqt5-qgridlayout#:~:text=To%20remove%20the%20space%20between,to%20the%20imaginary%20fifth%20column.
 
 		if layout == "QGridLayout":
 			x = 0
@@ -58,10 +64,6 @@ class Buttons:
 				self.layout.addWidget(self.buttons[b])
 
 		return self.layout
-
-	@classmethod
-	def update_buttons(cls, button):
-		cls.buttons.update({button.text():button})
 
 
 
