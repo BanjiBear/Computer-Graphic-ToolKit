@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QWidget
 from PyQt6.QtWidgets import QPushButton
 
 from package.widgets.button import Buttons
+from package.service.general_service import set_buttons_state
 
 
 class Dot(QWidget):
@@ -37,9 +38,11 @@ class Dot(QWidget):
 	def draw_dots(self):
 		if self.button_is_checked:
 			self.enable_draw_dot()
+			set_buttons_state(self.button.text())
 			print("On!")
 		else:
 			self.disable_draw_dot()
+			set_buttons_state(self.button.text(), True)
 			print("Off")
 
 
@@ -73,9 +76,11 @@ class Line(QWidget):
 	def draw_lines(self):
 		if self.button_is_checked:
 			self.enable_draw_line()
+			set_buttons_state(self.button.text())
 			print("On!")
 		else:
 			self.disable_draw_line()
+			set_buttons_state(self.button.text(), True)
 			print("Off")
 
 

@@ -54,23 +54,20 @@ class Canvas(QMainWindow):
 	def paintEvent(self, event):
 		QMainWindow.paintEvent(self, event)
 		self.update()
-		if not Dot.DOT_x == None and not Dot.DOT_y == None:
-			painter = QPainter()
-			painter.begin(self)
-			painter.setPen(Qt.GlobalColor.red)
-			for x in Dot.Dots:
-				painter.drawPoint(x, Dot.Dots[x])
-			painter.end()
-		elif Line.LINE:
-			painter = QPainter()
-			painter.begin(self)
-			pen = QtGui.QPen()
-			pen.setWidth(15)
-			pen.setColor(Qt.GlobalColor.red)
-			painter.setPen(pen)
-			for l in Line.Lines:
-				painter.drawLine(l, Line.Lines[l])
-			painter.end()
+
+		painter = QPainter()
+		painter.begin(self)
+		pen = QtGui.QPen()
+		pen.setColor(Qt.GlobalColor.red)
+		pen.setWidth(3)
+		painter.setPen(pen)
+		
+		for x in Dot.Dots:
+			painter.drawPoint(x, Dot.Dots[x])
+		for l in Line.Lines:
+			painter.drawLine(l, Line.Lines[l])
+		
+		painter.end()
 
 
 
