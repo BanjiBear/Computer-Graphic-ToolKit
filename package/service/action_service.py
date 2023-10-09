@@ -143,6 +143,75 @@ class Quadrilateral(QWidget):
 		return top_left, bottom_right
 
 
+class Circle(QWidget):
+
+	def __init__(self, button: QPushButton):
+		super().__init__()
+		self.button = button
+		self.button_is_checked = False
+
+	def the_button_was_toggled(self, checked):
+		self.button_is_checked = checked
+		self.draw_circle()
+
+	CIRCLE: bool = False
+	central, circle_p = None, None
+	Circles: Dict[QPoint, float] = {}
+
+	@classmethod
+	def enable_draw_circle(cls):
+		cls.CIRCLE = True
+		cls.central, cls.circle_p = None, None
+
+	@classmethod
+	def disable_draw_circle(cls):
+		cls.CIRCLE = False
+		cls.central, cls.circle_p = None, None
+
+
+	def draw_circle(self):
+		if self.button_is_checked:
+			self.enable_draw_circle()
+			set_buttons_state(self.button.text())
+		else:
+			self.disable_draw_circle()
+			set_buttons_state(self.button.text(), True)
+
+
+class Triangle(QWidget):
+
+	def __init__(self, button: QPushButton):
+		super().__init__()
+		self.button = button
+		self.button_is_checked = False
+
+	def the_button_was_toggled(self, checked):
+		self.button_is_checked = checked
+		self.draw_triangle()
+
+	TRIANGEL: bool = False
+	vertecies = []
+	Triangles: List = []
+
+	@classmethod
+	def enable_draw_triangle(cls):
+		cls.TRIANGEL = True
+		cls.vertecies.clear()
+
+	@classmethod
+	def disable_draw_triangle(cls):
+		cls.TRIANGEL = False
+		cls.vertecies.clear()
+
+
+	def draw_triangle(self):
+		if self.button_is_checked:
+			self.enable_draw_triangle()
+			set_buttons_state(self.button.text())
+		else:
+			self.disable_draw_triangle()
+			set_buttons_state(self.button.text(), True)
+
 
 
 

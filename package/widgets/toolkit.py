@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import QWidget
 from package.util import constant
 from package.util.util import EnvSetting
 from package.widgets.button import Buttons
-from package.service.action_service import Dot, Line, Quadrilateral
+from package.service.action_service import Dot, Line, Quadrilateral, Circle, Triangle
 
 
 class PremitiveTools(Enum):
@@ -78,9 +78,11 @@ class ToolKit(QWidget):
 				self.rectangle = Quadrilateral(Buttons.buttons[button])
 				Buttons.buttons[button].clicked.connect(self.rectangle.the_button_was_toggled)
 			elif button == constant.BUTTON_LAYOUT_CIRCLE:
-				...
+				self.circle = Circle(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.circle.the_button_was_toggled)
 			elif button == constant.BUTTON_LABLE_TRIANGLE:
-				...
+				self.triangle = Triangle(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.triangle.the_button_was_toggled)
 			elif button == constant.BUTTON_LABLE_ARROW:
 				...
 
