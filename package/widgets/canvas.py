@@ -52,7 +52,6 @@ class Canvas(QMainWindow):
 			if len(Triangle.vertecies) == 3:
 				Triangle.Triangles.append(Triangle.vertecies)
 				Triangle.vertecies = []
-				print(Triangle.Triangles)
 
 	def mouseReleaseEvent(self, event):
 		self.update()
