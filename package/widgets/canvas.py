@@ -1,12 +1,13 @@
 import sys, random
 from PyQt6 import QtCore, QtGui
 from PyQt6.QtGui import QPainter, QPen
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from package.util import constant
 from package.util.util import EnvSetting
-from package.service.action_service import Dot, Line
+from package.service.action_service import Dot, Line, Quadrilateral
+from package.service.general_service import get_edge
 
 
 class Canvas(QMainWindow):
@@ -42,12 +43,24 @@ class Canvas(QMainWindow):
 			Dot.Dots.update({Dot.DOT_x : Dot.DOT_y})
 		elif Line.LINE:
 			Line.start_p = event.pos()
+		elif Quadrilateral.QUAD:
+			Quadrilateral.start_p = event.pos()
 
 	def mouseReleaseEvent(self, event):
 		self.update()
 		if Line.LINE:
 			Line.end_p = event.pos()
 			Line.Lines.update({Line.start_p : Line.end_p})
+		elif Quadrilateral.QUAD:
+			Quadrilateral.end_p = event.pos()
+			if Quadrilateral.mode == "square":
+				Quadrilateral.start_p, Quadrilateral.end_p = Quadrilateral.get_top_left_bottom_right_p(Quadrilateral.start_p, Quadrilateral.end_p, True)
+				width, height = get_edge(Quadrilateral.start_p, Quadrilateral.end_p)
+				Quadrilateral.Square.update({Quadrilateral.start_p: min(width, height)})
+			elif Quadrilateral.mode == "rectangle":
+				Quadrilateral.start_p, Quadrilateral.end_p = Quadrilateral.get_top_left_bottom_right_p(Quadrilateral.start_p, Quadrilateral.end_p)
+				width, height = get_edge(Quadrilateral.start_p, Quadrilateral.end_p)
+				Quadrilateral.Rectangle.update({Quadrilateral.start_p: [width, height]})
 
 
 
@@ -66,6 +79,10 @@ class Canvas(QMainWindow):
 			painter.drawPoint(x, Dot.Dots[x])
 		for l in Line.Lines:
 			painter.drawLine(l, Line.Lines[l])
+		for sq in Quadrilateral.Square:
+			painter.drawRect(sq.x(), sq.y(), Quadrilateral.Square[sq], Quadrilateral.Square[sq])
+		for rec in Quadrilateral.Rectangle:
+			painter.drawRect(rec.x(), rec.y(), Quadrilateral.Rectangle[rec][0], Quadrilateral.Rectangle[rec][1])
 		
 		painter.end()
 

@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import QWidget
 from package.util import constant
 from package.util.util import EnvSetting
 from package.widgets.button import Buttons
-from package.service.action_service import Dot, Line
+from package.service.action_service import Dot, Line, Quadrilateral
 
 
 class PremitiveTools(Enum):
@@ -41,10 +41,10 @@ class ToolKit(QWidget):
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowStaysOnTopHint)
 
 		self.toolkit_width, self.toolkit_height = int(EnvSetting.ENV[constant.TOOLKIT__WIDTH]), int(EnvSetting.ENV[constant.TOOLKIT__HEIGHT])
-		if self.toolkit_width == 0 or self.toolkit_height == 0:
-			screen = self.canvas.app.primaryScreen()
-			self.toolkit_width, self.toolkit_height = screen.size().width() * 0.15, screen.size().height()
-		self.resize(self.toolkit_width, self.toolkit_height)
+		# if self.toolkit_width == 0 or self.toolkit_height == 0:
+		# 	screen = self.canvas.app.primaryScreen()
+		# 	self.toolkit_width, self.toolkit_height = screen.size().width() * 0.15, screen.size().height()
+		# self.resize(self.toolkit_width, self.toolkit_height)
 
 
 	def create_primitive_tools(self):
@@ -72,9 +72,11 @@ class ToolKit(QWidget):
 				self.line = Line(Buttons.buttons[button])
 				Buttons.buttons[button].clicked.connect(self.line.the_button_was_toggled)
 			elif button == constant.BUTTON_LABLE_SQUARE:
-				...
+				self.square = Quadrilateral(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.square.the_button_was_toggled)
 			elif button == constant.BUTTON_LABLE_RECTANGLE:
-				...
+				self.rectangle = Quadrilateral(Buttons.buttons[button])
+				Buttons.buttons[button].clicked.connect(self.rectangle.the_button_was_toggled)
 			elif button == constant.BUTTON_LAYOUT_CIRCLE:
 				...
 			elif button == constant.BUTTON_LABLE_TRIANGLE:
