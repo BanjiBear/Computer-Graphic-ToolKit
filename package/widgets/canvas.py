@@ -1,6 +1,6 @@
 import sys, random
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtGui import QPainter, QPen, QPolygon
+from PyQt6.QtGui import QPainter, QPen, QPolygon, QColor
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
@@ -21,6 +21,7 @@ class Canvas(QMainWindow):
 		super().__init__()
 		# self.setMouseTracking(self.mouseTrackable)
 		self.setWindowTitle(EnvSetting.ENV[constant.CANVAS_TITLE])
+		self.setStyleSheet("background-color:" + constant.CANVAS_COLOR + ";")
 
 		if int(EnvSetting.ENV[constant.CANVAS_WIDTH]) == 0 or int(EnvSetting.ENV[constant.CANVAS_HEIGHT]) == 0:
 			screen = self.app.primaryScreen()
@@ -82,7 +83,7 @@ class Canvas(QMainWindow):
 		painter = QPainter()
 		painter.begin(self)
 		pen = QtGui.QPen()
-		pen.setColor(Qt.GlobalColor.red)
+		pen.setColor(QColor(constant.DEFAULT_COLOR))
 		pen.setWidth(3)
 		painter.setPen(pen)
 		
