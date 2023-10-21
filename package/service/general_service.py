@@ -14,7 +14,7 @@ def set_buttons_state(button_lable: str, enable = False):
 			Buttons.buttons[button_text].setEnabled(True)
 	else:
 		for button_text in Buttons.buttons:
-			if not button_text == button_lable:
+			if not button_text == button_lable and not "color_#" in button_text:
 				Buttons.buttons[button_text].setEnabled(False)
 
 
