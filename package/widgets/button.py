@@ -24,19 +24,25 @@ class Buttons:
 		self.toolkit_width = toolkit_width
 		self.toolkit_height = toolkit_height
 
-	def create_button(self, button_label : List):
-		for lable in button_label:
+	def create_button(self, number_of_buttons: int, button_label : List, colors: List):
+		for i in range(number_of_buttons):
 			button = QPushButton()
-			button.setText(lable)
-			button.setFont(QFont('Arial', 30))
+			if button_label:
+				button.setText(button_label[i])
+				button.setFont(QFont('Arial', 30))
+			if colors:
+				button.setStyleSheet("background-color:" + colors[i] + ";")
 			button.setFixedSize(QtCore.QSize(40, 40))
 			# Reference: https://stackoverflow.com/questions/56975249/button-resizing-automatically
-			self.update_buttons(button)
+			if button_label:
+				self.update_buttons(button.text(), button)
+			else:
+				self.update_buttons("color_"+colors[i], button)
 			# print(button.text())
 
 	@classmethod
-	def update_buttons(cls, button):
-		cls.buttons.update({button.text():button})
+	def update_buttons(cls, text: str, button):
+		cls.buttons.update({text:button})
 
 
 	def button_layout(self, layout: str):

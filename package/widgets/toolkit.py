@@ -16,7 +16,14 @@ class PremitiveTools(Enum):
 	Rectangle = constant.BUTTON_LABLE_RECTANGLE
 	Circle = constant.BUTTON_LAYOUT_CIRCLE
 	Triangle = constant.BUTTON_LABLE_TRIANGLE
-	Arrow = constant.BUTTON_LABLE_ARROW
+
+class Colors(Enum):
+	Red = "#d00000"
+	Blue = "#0000FF"
+	Green = "#008000"
+	Yellow = "#FFFF00"
+	Orange = "#FFA500"
+	Black = "#000000"
 
 
 class ToolKit(QWidget):
@@ -46,17 +53,27 @@ class ToolKit(QWidget):
 		# 	self.toolkit_width, self.toolkit_height = screen.size().width() * 0.15, screen.size().height()
 		# self.resize(self.toolkit_width, self.toolkit_height)
 
-
-	def create_primitive_tools(self):
 		self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
+		self.create_primitive_tools(self.buttons)
+		self.create_color_palette(self.buttons)
+
+
+	def create_primitive_tools(self, buttons):
+		# self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
 		label = [i.value for i in PremitiveTools]
-		self.buttons.create_button(label)
+		self.buttons.create_button(len(label), label, None)
 
 		self.set_primitve_tools_action()
 
 		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
 		self.setLayout(self.buttons.button_layout(layout))
+		self.show()
 
+	def create_color_palette(self, buttons):
+		colors = [i.value for i in Colors]
+		self.buttons.create_button(len(colors), None, colors)
+		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		self.setLayout(self.buttons.button_layout(layout))
 		self.show()
 
 
@@ -83,8 +100,9 @@ class ToolKit(QWidget):
 			elif button == constant.BUTTON_LABLE_TRIANGLE:
 				self.triangle = Triangle(Buttons.buttons[button])
 				Buttons.buttons[button].clicked.connect(self.triangle.the_button_was_toggled)
-			elif button == constant.BUTTON_LABLE_ARROW:
-				...
+
+	def set_color_palette_action(self):
+		...
 
 
 

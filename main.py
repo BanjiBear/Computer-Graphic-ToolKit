@@ -19,7 +19,7 @@ if __name__ == "__main__":
 	canvas = Canvas()
 	# Initialize the Tool Kit
 	toolkit = ToolKit(canvas)
-	toolkit.create_primitive_tools()
+	# toolkit.create_primitive_tools()
 
 	# Run
 	sys.exit(canvas.app.exec())
