@@ -28,7 +28,7 @@ class Colors(Enum):
 
 class ToolKit(QWidget):
 
-	def __init__(self, canvas):
+	def __init__(self):
 		parent = None
 		super(ToolKit, self).__init__(parent)
 
@@ -41,8 +41,6 @@ class ToolKit(QWidget):
 			https://itecnote.com/tecnote/qt-how-to-put-a-child-window-inside-a-main-windowpyqt/
 			https://stackoverflow.com/questions/30470433/how-to-put-a-child-window-inside-a-main-windowpyqt
 		"""
-
-		self.canvas = canvas
 
 		self.setWindowTitle(EnvSetting.ENV[constant.TOOLKIT_TITLE])
 		self.setWindowFlags(QtCore.Qt.WindowType.WindowStaysOnTopHint)
