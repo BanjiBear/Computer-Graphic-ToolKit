@@ -57,7 +57,7 @@ class Line(QWidget):
 
 	LINE: bool = False
 	start_p, end_p = None, None
-	Lines: Dict[QPoint, QPoint] = {}
+	Lines: Dict[int, Dict] = {}
 
 	@classmethod
 	def enable_draw_line(cls):
@@ -94,8 +94,8 @@ class Quadrilateral(QWidget):
 	QUAD: bool = False
 	start_p, end_p = None, None
 	mode: str = ""
-	Rectangle: Dict[QPoint, List] = {}
-	Square: Dict[QPoint, float] = {}
+	Rectangle: Dict[int, Dict] = {}
+	Square: Dict[int, Dict] = {}
 
 	@classmethod
 	def enable_draw(cls):
@@ -156,7 +156,7 @@ class Circle(QWidget):
 
 	CIRCLE: bool = False
 	central, circle_p = None, None
-	Circles: Dict[QPoint, float] = {}
+	Circles: Dict[int, Dict] = {}
 
 	@classmethod
 	def enable_draw_circle(cls):
@@ -191,7 +191,7 @@ class Triangle(QWidget):
 
 	TRIANGEL: bool = False
 	vertecies = []
-	Triangles: List = []
+	Triangles: Dict[int, Dict] = {}
 
 	@classmethod
 	def enable_draw_triangle(cls):

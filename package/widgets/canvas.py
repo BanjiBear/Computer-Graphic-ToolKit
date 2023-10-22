@@ -37,7 +37,12 @@ class Canvas(QMainWindow):
 		self.update()
 		if Dot.DOT:
 			Dot.DOT_x, Dot.DOT_y = event.pos().x(), event.pos().y()
-			Dot.Dots.update({Dot.DOT_x : Dot.DOT_y})
+			Dot.Dots.update(\
+				{len(Dot.Dots):\
+					{"x": Dot.DOT_x, \
+					"y": Dot.DOT_y, \
+					"color": self.toolkit.current_color}\
+				})
 		elif Line.LINE:
 			Line.start_p = event.pos()
 		elif Quadrilateral.QUAD:
@@ -47,28 +52,52 @@ class Canvas(QMainWindow):
 		elif Triangle.TRIANGEL:
 			Triangle.vertecies.append(event.pos())
 			if len(Triangle.vertecies) == 3:
-				Triangle.Triangles.append(Triangle.vertecies)
+				Triangle.Triangles.update(\
+					{len(Triangle.Triangles):\
+						{"vertecies": Triangle.vertecies, \
+						"color": self.toolkit.current_color}\
+					})
 				Triangle.vertecies = []
 
 	def mouseReleaseEvent(self, event):
 		self.update()
 		if Line.LINE:
 			Line.end_p = event.pos()
-			Line.Lines.update({Line.start_p : Line.end_p})
+			Line.Lines.update(\
+				{len(Line.Lines):\
+					{"start_p": Line.start_p, \
+					"end_p": Line.end_p, \
+					"color": self.toolkit.current_color}\
+				})
 		elif Quadrilateral.QUAD:
 			Quadrilateral.end_p = event.pos()
 			if Quadrilateral.mode == "square":
 				Quadrilateral.start_p, Quadrilateral.end_p = Quadrilateral.get_top_left_bottom_right_p(Quadrilateral.start_p, Quadrilateral.end_p, True)
 				width, height = get_edge(Quadrilateral.start_p, Quadrilateral.end_p)
-				Quadrilateral.Square.update({Quadrilateral.start_p: min(width, height)})
+				Quadrilateral.Square.update(\
+							{len(Quadrilateral.Square):\
+								{"start_p": Quadrilateral.start_p,\
+								"edge": min(width, height),\
+								"color": self.toolkit.current_color}\
+							})
 			elif Quadrilateral.mode == "rectangle":
 				Quadrilateral.start_p, Quadrilateral.end_p = Quadrilateral.get_top_left_bottom_right_p(Quadrilateral.start_p, Quadrilateral.end_p)
 				width, height = get_edge(Quadrilateral.start_p, Quadrilateral.end_p)
-				Quadrilateral.Rectangle.update({Quadrilateral.start_p: [width, height]})
+				Quadrilateral.Rectangle.update(\
+							{len(Quadrilateral.Rectangle):\
+								{"start_p": Quadrilateral.start_p,\
+								"edge": [width, height], \
+								"color": self.toolkit.current_color}\
+							})
 		elif Circle.CIRCLE:
 			Circle.circle_p = event.pos()
 			radius = get_length(Circle.central, Circle.circle_p)
-			Circle.Circles.update({Circle.central: radius})
+			Circle.Circles.update(\
+							{len(Circle.Circles):\
+								{"central": Circle.central,\
+								"radius": radius,\
+								"color": self.toolkit.current_color}\
+							})
 
 
 
@@ -79,22 +108,36 @@ class Canvas(QMainWindow):
 		painter = QPainter()
 		painter.begin(self)
 		pen = QtGui.QPen()
-		pen.setColor(QColor(self.toolkit.current_color))
 		pen.setWidth(3)
-		painter.setPen(pen)
 		
-		for x in Dot.Dots:
-			painter.drawPoint(x, Dot.Dots[x])
+		for d in Dot.Dots:
+			pen.setColor(QColor(Dot.Dots[d]['color']))
+			painter.setPen(pen)
+			painter.drawPoint(Dot.Dots[d]['x'], Dot.Dots[d]['y'])
 		for l in Line.Lines:
-			painter.drawLine(l, Line.Lines[l])
+			pen.setColor(QColor(Line.Lines[l]['color']))
+			painter.setPen(pen)
+			painter.drawLine(Line.Lines[l]['start_p'], Line.Lines[l]['end_p'])
 		for sq in Quadrilateral.Square:
-			painter.drawRect(sq.x(), sq.y(), Quadrilateral.Square[sq], Quadrilateral.Square[sq])
+			pen.setColor(QColor(Quadrilateral.Square[sq]['color']))
+			painter.setPen(pen)
+			painter.drawRect(Quadrilateral.Square[sq]['start_p'].x(), Quadrilateral.Square[sq]['start_p'].y(), \
+							Quadrilateral.Square[sq]['edge'], Quadrilateral.Square[sq]['edge'])
 		for rec in Quadrilateral.Rectangle:
-			painter.drawRect(rec.x(), rec.y(), Quadrilateral.Rectangle[rec][0], Quadrilateral.Rectangle[rec][1])
+			pen.setColor(QColor(Quadrilateral.Rectangle[rec]['color']))
+			painter.setPen(pen)
+			painter.drawRect(Quadrilateral.Rectangle[rec]['start_p'].x(), Quadrilateral.Rectangle[rec]['start_p'].y(), \
+							Quadrilateral.Rectangle[rec]['edge'][0], Quadrilateral.Rectangle[rec]['edge'][1])
 		for c in Circle.Circles:
-			painter.drawEllipse(c.x() - Circle.Circles[c], c.y() - Circle.Circles[c], Circle.Circles[c] * 2, Circle.Circles[c] * 2)
+			pen.setColor(QColor(Circle.Circles[c]['color']))
+			painter.setPen(pen)
+			painter.drawEllipse(Circle.Circles[c]['central'].x() - Circle.Circles[c]['radius'], \
+							Circle.Circles[c]['central'].y() - Circle.Circles[c]['radius'], \
+							Circle.Circles[c]['radius'] * 2, Circle.Circles[c]['radius'] * 2)
 		for tri in Triangle.Triangles:
-			painter.drawPolygon(QPolygon(tri))
+			pen.setColor(QColor(Triangle.Triangles[tri]['color']))
+			painter.setPen(pen)
+			painter.drawPolygon(QPolygon(Triangle.Triangles[tri]['vertecies']))
 		
 		painter.end()
 
