@@ -1,5 +1,6 @@
 import sys
 from enum import Enum
+from functools import partial
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget
 
@@ -54,6 +55,7 @@ class ToolKit(QWidget):
 		self.buttons = Buttons(self.toolkit_width, self.toolkit_height)
 		self.create_primitive_tools(self.buttons)
 		self.create_color_palette(self.buttons)
+		self.current_color = constant.DEFAULT_COLOR
 
 
 	def create_primitive_tools(self, buttons):
@@ -70,6 +72,7 @@ class ToolKit(QWidget):
 	def create_color_palette(self, buttons):
 		colors = [i.value for i in Colors]
 		self.buttons.create_button(len(colors), None, colors)
+		self.set_color_palette_action()
 		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
 		self.setLayout(self.buttons.button_layout(layout))
 		self.show()
@@ -100,7 +103,15 @@ class ToolKit(QWidget):
 				Buttons.buttons[button].clicked.connect(self.triangle.the_button_was_toggled)
 
 	def set_color_palette_action(self):
-		...
+		for button in Buttons.buttons:
+			if "color_#" in button:
+				Buttons.buttons[button].clicked.connect(partial(self.set_color, button))
+				#reference: https://stackoverflow.com/questions/42773709/pyqt5-show-which-button-was-clicked#:~:text=To%20find%20out%20which%20button,were%20added%20to%20the%20group.
+				#	1. check which button is clicked, same connect function
+				#	2. pass text without arguments
 
+	def set_color(self, color: str):
+		# color prefix: "color_"
+		self.current_color = color[6:len(color)]
 
 

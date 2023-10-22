@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from package.util import constant
 from package.util.util import EnvSetting
+from package.widgets.toolkit import ToolKit
 from package.service.action_service import Dot, Line, Quadrilateral, Circle, Triangle
 from package.service.general_service import get_edge, get_length
 
@@ -13,13 +14,9 @@ from package.service.general_service import get_edge, get_length
 class Canvas(QMainWindow):
 
 	def __init__(self):
-
-		# self.mouseTrackable = False
-
 		self.app = QApplication([])
 
 		super().__init__()
-		# self.setMouseTracking(self.mouseTrackable)
 		self.setWindowTitle(EnvSetting.ENV[constant.CANVAS_TITLE])
 		self.setStyleSheet("background-color:" + constant.CANVAS_COLOR + ";")
 
@@ -31,9 +28,8 @@ class Canvas(QMainWindow):
 
 		self.show()
 
-	# def setMouseTrackable(self, status: bool):
-	# 	self.mouseTrackable = status
-	# 	self.setMouseTracking(self.mouseTrackable)
+		# Initialize the Tool Kit
+		self.toolkit = ToolKit()
 
 
 
@@ -83,7 +79,7 @@ class Canvas(QMainWindow):
 		painter = QPainter()
 		painter.begin(self)
 		pen = QtGui.QPen()
-		pen.setColor(QColor(constant.DEFAULT_COLOR))
+		pen.setColor(QColor(self.toolkit.current_color))
 		pen.setWidth(3)
 		painter.setPen(pen)
 		
