@@ -7,8 +7,9 @@ from PyQt6.QtWidgets import QWidget
 from package.util import constant
 from package.util.util import EnvSetting
 from package.widgets.button import Buttons
-from package.service.action_service import Dot, Line, Quadrilateral, Circle, Triangle
-
+from package.service.action_service import Actions, Dot, Line, Quadrilateral, Circle, Triangle
+from package.service.action_service import Transformer
+from package.service.general_service import layout
 
 class PremitiveTools(Enum):
 	Dot = constant.BUTTON_LABLE_DOT
@@ -25,6 +26,11 @@ class Colors(Enum):
 	Yellow = "#FFFF00"
 	Orange = "#FFA500"
 	Black = "#000000"
+
+class Transformations(Enum):
+	Translation = "Move"
+	Rotation = "Rotate"
+	Scaling = "Scale"
 
 
 class ToolKit(QWidget):
@@ -56,6 +62,12 @@ class ToolKit(QWidget):
 		self.create_primitive_tools(self.buttons)
 		self.create_color_palette(self.buttons)
 		self.current_color = constant.DEFAULT_COLOR
+		self.create_transformation_tools(self.buttons)
+		self.create_other_tools(self.buttons)
+		self.show()
+
+	def closeEvent(self, event):
+		event.ignore()
 
 
 	def create_primitive_tools(self, buttons):
@@ -65,17 +77,31 @@ class ToolKit(QWidget):
 
 		self.set_primitve_tools_action()
 
-		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
-		self.setLayout(self.buttons.button_layout(layout))
-		self.show()
+		Layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		self.setLayout(layout(Layout, Buttons.buttons))
 
 	def create_color_palette(self, buttons):
 		colors = [i.value for i in Colors]
 		self.buttons.create_button(len(colors), None, colors)
 		self.set_color_palette_action()
-		layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
-		self.setLayout(self.buttons.button_layout(layout))
-		self.show()
+		Layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		self.setLayout(layout(Layout, Buttons.buttons))
+
+	def create_transformation_tools(self, buttons):
+		label = [i.value for i in Transformations]
+		self.buttons.create_button(len(label), label, None, 10)
+		self.set_transformation_action()
+		Layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		# addWidget = partial(self.buttons.layout.addWidget, rowSpan = 1, columnSpan = 2)
+		self.setLayout(layout(Layout, Buttons.buttons))
+
+
+	def create_other_tools(self, buttons):
+		label = ["undo", "redo", "exit"]
+		self.buttons.create_button(len(label), label, None, 15)
+		self.set_other_tools_action()
+		Layout = EnvSetting.ENV[constant.BUTTON_LAYOUT]
+		self.setLayout(layout(Layout, Buttons.buttons))
 
 
 
@@ -113,5 +139,28 @@ class ToolKit(QWidget):
 	def set_color(self, color: str):
 		# color prefix: "color_"
 		self.current_color = color[6:len(color)]
+
+
+
+	def set_transformation_action(self):
+		for button in Buttons.buttons:
+			if button in [i.value for i in Transformations]:
+				Buttons.buttons[button].clicked.connect(partial(self.init_transform, button))
+
+	def init_transform(self, transform_type):
+		self.transform = Transformer(transform_type)
+
+
+	def set_other_tools_action(self):
+		for button in Buttons.buttons:
+			if button == "exit":
+				Buttons.buttons[button].clicked.connect(sys.exit)
+			elif button == "undo":
+				Buttons.buttons[button].clicked.connect(Actions.undo_action)
+			elif button == "redo":
+				Buttons.buttons[button].clicked.connect(Actions.redo_action)
+
+
+
 
 
