@@ -18,7 +18,6 @@ class Canvas(QMainWindow):
 
 		super().__init__()
 		self.setWindowTitle(EnvSetting.ENV[constant.CANVAS_TITLE])
-		self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
 		self.setStyleSheet("background-color:" + constant.CANVAS_COLOR + ";")
 		if int(EnvSetting.ENV[constant.CANVAS_WIDTH]) == 0 or int(EnvSetting.ENV[constant.CANVAS_HEIGHT]) == 0:
 			screen = self.app.primaryScreen()
@@ -29,6 +28,9 @@ class Canvas(QMainWindow):
 
 		# Initialize the Tool Kit
 		self.toolkit = ToolKit()
+
+	def closeEvent(self, event):
+		event.ignore()
 
 
 
