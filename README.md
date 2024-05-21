@@ -1,4 +1,4 @@
-# Computer Graphics Toolkit
+# [2023] Computer Graphics Toolkit
 
 ## Introduction
 The Computer Graphics (CG) Toolkit is a program simulating off-the-shelf CG drawing software in terms of 2D graphics creation and manipulation. The simulation is accomplished by providing interactions through a user interface with built-in functions for creating objects, CG primitives, performing translation, rotation, scaling, and additional editing features. The goals include enhancing the understanding of fundamental operations and basic algorithms for computer graphics. The requirements are to develop a Computer Graphics Tool Kit by implementing the following computer graphics functions:
